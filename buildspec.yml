@@ -1,0 +1,14 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - curl -sSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+      - helm version
+  pre_build:
+    commands:
+      - echo Connecting to EKS cluster...
+      - aws eks --region us-east-1 update-kubeconfig --name montreal-modernization
+  build:
+    commands:
+      - helm upgrade --install my-nginx ./ --namespace default
